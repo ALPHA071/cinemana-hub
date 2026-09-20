@@ -2,6 +2,7 @@
 
 > **Cinemana Web Hub**: أداة ويب تفاعلية متطورة وخفيفة الوزن تتيح لك تصفح، مشاهدة، واستخراج روابط مقاطع شبكتي سينمانا (Cinemana Shabakaty) بجودات متعددة، مع مشغل فيديو مدمج يدعم عرض ملفات الترجمة العربية تلقائياً وبأعلى دقة.
 
+<img width="1150" height="492" alt="Screenshot 2026-09-20 062645" src="https://github.com/user-attachments/assets/c943a1cd-619f-4abb-9805-a0b11a144cf7" />
 ---
 
 
@@ -29,6 +30,14 @@
    قم بتحميل ملف `index.html` وافتحه في أي متصفح (Google Chrome, Microsoft Edge, Safari, Firefox).
 
 ---
+
+<img width="1022" height="825" alt="Screenshot 2026-09-20 062902" src="https://github.com/user-attachments/assets/d3c286ca-d741-4efd-9c34-427c953f40e4" />
+<img width="982" height="845" alt="Screenshot 2026-09-20 063010" src="https://github.com/user-attachments/assets/4cf7e3d3-bd37-4a6d-a40c-b30d37ca856e" />
+<img width="1066" height="780" alt="Screenshot 2026-09-20 062921" src="https://github.com/user-attachments/assets/76e788b3-6ea7-4022-9bfe-26d500dfa984" />
+
+
+
+
 
 `cinemana` `shabakaty` `cinemana-downloader` `subtitles-downloader` `arabic-subtitles` `video-player` `srt-vtt` `cinemana-api` `iraq-media` `web-player` 
 

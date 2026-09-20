@@ -29,6 +29,9 @@
 2. **الاستخدام المحلي (Local):**  
    قم بتحميل ملف `index.html` وافتحه في أي متصفح (Google Chrome, Microsoft Edge, Safari, Firefox).
 
+<img width="1280" height="639" alt="0000" src="https://github.com/user-attachments/assets/cbe927c4-d734-4623-8145-4d23e1d203f1" />
+
+
 ---
 
 <img width="1022" height="825" alt="Screenshot 2026-09-20 062902" src="https://github.com/user-attachments/assets/d3c286ca-d741-4efd-9c34-427c953f40e4" />

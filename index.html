@@ -1,0 +1,1574 @@
+<!doctype html>
+<!--
+  Cinemana Media Hub (Video & Subtitles Engine)
+  Crafted & Developed by: M7
+  Contact / Instagram: https://www.instagram.com/tg.v
+-->
+<html lang="ar" dir="rtl" data-author="M7" data-social="https://www.instagram.com/tg.v">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="M7">
+<meta name="designer" content="M7 (@tg.v)">
+<title>Cinemana Hub - تحميل ومشاهدة سينمانا</title>
+<style>
+:root {
+  --bg: #0b0e14;
+  --surface: #131822;
+  --surface-hover: #1a2230;
+  --surface-alt: #0e121a;
+  --border: #202736;
+  --text: #edf2f9;
+  --muted: #8290a6;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --success: #10b981;
+  --success-hover: #059669;
+  --gold: #f59e0b;
+  --danger: #ef4444;
+  --tag-bg: rgba(59, 130, 246, 0.12);
+  --tag-border: rgba(59, 130, 246, 0.3);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 30px 16px;
+  line-height: 1.6;
+}
+main {
+  max-width: 860px;
+  margin: 0 auto;
+}
+header {
+  margin-bottom: 22px;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: 23px;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: #93c5fd;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+.dev-badge:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--primary);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.dev-badge svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.sub {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+input[type="text"] {
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14.5px;
+  direction: ltr;
+  transition: border-color .2s, box-shadow .2s;
+}
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+select {
+  padding: 9px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13.5px;
+  cursor: pointer;
+}
+select:focus { outline: none; border-color: var(--primary); }
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--primary);
+  color: #fff;
+  white-space: nowrap;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-s {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.btn-dl { background: var(--success); }
+.btn-dl:hover:not(:disabled) { background: var(--success-hover); }
+.btn-cp { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-cp:hover:not(:disabled) { background: var(--border); }
+.btn-gold { background: var(--gold); color: #000; font-weight: 700; }
+.btn-gold:hover:not(:disabled) { background: #d97706; color: #fff; }
+.btn-close {
+  background: #281216;
+  color: var(--danger);
+  border: 1px solid #551b23;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+.btn-close:hover:not(:disabled) { background: #3d161d; }
+
+.status {
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin: 8px 0 16px;
+  display: none;
+}
+.status.load { display: block; background: #141c2c; color: #93c5fd; border: 1px solid #1e3a8a; }
+.status.err { display: block; background: #281419; color: var(--danger); border: 1px solid #7f1d1d; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  position: relative;
+}
+.card h2 {
+  font-size: 16.5px;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.meta {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-bottom: 12px;
+  direction: ltr;
+  word-break: break-all;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 18px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.quality-item {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color .2s;
+}
+.quality-item:hover {
+  border-color: var(--primary);
+}
+.quality-item .q-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quality-badge {
+  font-size: 13.5px;
+  font-weight: 700;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: #60a5fa;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+.quality-badge.fhd {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+.quality-badge.hd {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+.quality-badge.sd {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+.q-type {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.q-actions {
+  display: flex;
+  gap: 6px;
+}
+.q-actions button {
+  flex: 1;
+}
+.result, .headline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.result {
+  cursor: pointer;
+  transition: all .2s;
+}
+.result:hover {
+  border-color: var(--primary);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+.result .thumb, .headline .thumb {
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: #1e2636;
+}
+.result .thumb { width: 54px; height: 76px; }
+.headline .thumb { width: 75px; height: 105px; }
+.result .info, .headline .info { flex: 1; min-width: 0; }
+.result .meta, .headline .meta { margin-bottom: 0; }
+
+.video-player-box {
+  display: none;
+  margin-top: 14px;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.player-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #10141d;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.player-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.player-sub-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.player-sub-control select {
+  padding: 6px 10px;
+  font-size: 12.5px;
+  background: #18202d;
+}
+.sub-status-bar {
+  padding: 6px 14px;
+  font-size: 12px;
+  background: #0b0e14;
+  color: #34d399;
+  border-top: 1px solid #1a2233;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+video {
+  width: 100%;
+  max-height: 480px;
+  display: block;
+  background: #000;
+}
+video::cue {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: #ffffff !important;
+  font-size: 1.25rem !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  line-height: 1.5 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+.batch-panel {
+  display: none;
+  background: var(--surface-alt);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 14px;
+}
+.batch-header {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #93c5fd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.batch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.batch-label {
+  font-size: 13.5px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.batch-checkbox {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+  user-select: none;
+}
+.batch-checkbox input {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+.batch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.batch-progress-box {
+  display: none;
+  margin-top: 14px;
+  background: #080a0f;
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+.progress-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: #1c2536;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  transition: width .25s ease;
+}
+.progress-status-text {
+  font-size: 12.5px;
+  color: #94a3b8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+pre {
+  background: #080a0f;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  max-height: 280px;
+  overflow: auto;
+  font-size: 12.5px;
+  direction: ltr;
+  white-space: pre-wrap;
+  display: none;
+  margin: 12px 0 0;
+  color: #cbd5e1;
+}
+footer {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 26px;
+  line-height: 1.9;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+footer ul { margin: 6px 0 14px; padding-right: 18px; }
+footer li { margin-bottom: 5px; }
+.note-title { color: var(--text); font-weight: 600; }
+.footer-credit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.author-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .2s;
+}
+.author-link:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="header-top">
+    <h1>سينمانا هاب</h1>
+    <a href="https://www.instagram.com/tg.v" target="_blank" rel="noopener noreferrer" class="dev-badge" title="زيارة حساب المطور على إنستغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <span>M7</span>
+    </a>
+  </div>
+  <div class="sub">ابحث باسم العمل أو الصق الرابط أو معرّف الفيديو (ID). يمكنك تحميل مقاطع الفيديو بجميع الجودات المتوفرة أو تشغيلها مباشرة مع الترجمة، بالإضافة إلى إمكانية تحميل مواسم المسلسلات كاملة وتصدير روابطها.</div>
+</header>
+
+<div class="search-bar">
+  <input id="url" type="text" placeholder="اسم الفيلم أو المسلسل، أو الرابط، أو رقم المعرّف ID" autocomplete="off" spellcheck="false">
+  <button id="go">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    بحث / جلب
+  </button>
+</div>
+
+<div id="status" class="status"></div>
+<div id="results"></div>
+
+<footer>
+  <div class="note-title">💡 تلميحات سريعة:</div>
+  <ul>
+    <li><strong>تشغيل الفيديو مع الترجمة:</strong> اضغط على زر «▶ تشغيل» عند أي جودة لتشغيل المقطع فوراً مع تفعيل الترجمة العربية وإمكانية تغييرها.</li>
+    <li><strong>تحميل السيزن كامل:</strong> زر «⚡ تحميل حلقات الموسم كاملاً» يسمح باختيار الجودة وتحميل جميع الحلقات دفعة واحدة بالمتصفح مع ملفات الترجمة.</li>
+    <li><strong>تكامل برامج التحميل:</strong> يمكنك نسخ الروابط المباشرة ولصقها في IDM أو ADM للتحميل بأقصى سرعة ممكنة.</li>
+  </ul>
+  <div class="footer-credit">
+    <span>جميع الحقوق محفوظة © 2026</span>
+    <span>برمجة وتطوير: <a href="https://www.instagram.com/tg.v" target="_blank" rel="noopener noreferrer" class="author-link">M7 (@tg.v)</a></span>
+  </div>
+</footer>
+</main>
+
+<script>
+/**
+ * Cinemana Media Hub Engine
+ * Author: M7
+ * Instagram: https://www.instagram.com/tg.v
+ */
+const _DEV_SIGNATURE = {
+  author: 'M7',
+  instagram: 'https://www.instagram.com/tg.v',
+  released: '2026'
+};
+
+console.log(
+  '%c Developed by M7 %c https://www.instagram.com/tg.v ',
+  'background:#3b82f6;color:#ffffff;font-weight:bold;padding:5px 9px;border-radius:4px 0 0 4px;',
+  'background:#18202e;color:#93c5fd;padding:5px 9px;border-radius:0 4px 4px 0;'
+);
+
+const API_BASE = 'https://cinemana.shabakaty.com/api/android/';
+const API_ENDPOINTS = {
+  info: API_BASE + 'allVideoInfo/id/',
+  videos: API_BASE + 'transcoddedFiles/id/',
+  subs: API_BASE + 'translationFiles/id/',
+  season: API_BASE + 'videoSeason/id/',
+  search: API_BASE + 'video/V/2/itemsPerPage/20/video_title_search/'
+};
+
+const LANG_MAP = {
+  ar:'عربي', en:'إنجليزي', es:'إسباني', fr:'فرنسي', de:'ألماني',
+  it:'إيطالي', tr:'تركي', ru:'روسي', fa:'فارسي', ku:'كردي',
+  ur:'أردي', hi:'هندي', ja:'ياباني', ko:'كوري', zh:'صيني',
+  id:'إندونيسي', pt:'برتغالي', nl:'هولندي', sv:'سويدي', pl:'بولندي'
+};
+
+const urlInput = document.getElementById('url');
+const goBtn = document.getElementById('go');
+const statusBox = document.getElementById('status');
+const resultsBox = document.getElementById('results');
+let isBusy = false;
+
+function setStatus(type, msg) {
+  statusBox.className = 'status' + (type ? ' ' + type : '');
+  statusBox.textContent = msg || '';
+}
+
+function extractId(val) {
+  const str = val.trim();
+  let m = str.match(/lastEpisodeVideoID=(\d+)/i);
+  if (m) return m[1];
+  if (/^\d{5,}$/.test(str)) return str;
+  m = str.match(/\/video\/[^\/?#]+\/(\d+)/i);
+  if (m) return m[1];
+  m = str.match(/[?&]id=(\d+)/i);
+  if (m) return m[1];
+  return null;
+}
+
+function toBase64Url(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+}
+
+async function fetchVideoInfo(id) {
+  const res = await fetch(API_ENDPOINTS.info + id);
+  if (res.ok) return res.json();
+  const res2 = await fetch(API_ENDPOINTS.subs + id);
+  if (!res2.ok) throw new Error('HTTP ' + res.status);
+  return res2.json();
+}
+
+async function fetchVideoFiles(id) {
+  try {
+    const res = await fetch(API_ENDPOINTS.videos + id);
+    if (!res.ok) return [];
+    const list = await res.json();
+    return Array.isArray(list) ? list : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+async function fetchEpisodes(root) {
+  const res = await fetch(API_ENDPOINTS.season + root);
+  if (!res.ok) return [];
+  const list = await res.json();
+  if (!Array.isArray(list)) return [];
+  return list.filter(e => e && e.nb).sort((a, b) => {
+    return (parseInt(a.season, 10) - parseInt(b.season, 10)) || (parseInt(a.episodeNummer, 10) - parseInt(b.episodeNummer, 10));
+  });
+}
+
+function getExt(url) {
+  const m = (url || '').match(/\.([a-z0-9]+)(?:\?|$)/i);
+  return m ? m[1].toLowerCase() : 'srt';
+}
+
+function parseSubtitles(data) {
+  let list = Array.isArray(data.translations) ? data.translations.filter(t => t && t.file) : [];
+  if (!list.length) {
+    if (data.arTranslationFilePath) list.push({type:'ar', extention:getExt(data.arTranslationFilePath), file:data.arTranslationFilePath});
+    if (data.enTranslationFilePath) list.push({type:'en', extention:getExt(data.enTranslationFilePath), file:data.enTranslationFilePath});
+  }
+  return list;
+}
+
+function getLangLabel(t) {
+  if (typeof t === 'string') return LANG_MAP[t.toLowerCase()] || t;
+  return LANG_MAP[(t.type || '').toLowerCase()] || t.name || t.type || 'لغة';
+}
+
+function filterUniqueSubs(subs) {
+  const map = new Map();
+  for (const s of subs) {
+    const key = (s.type || s.name || 'lang').toLowerCase();
+    if (!map.has(key)) {
+      map.set(key, s);
+    } else if (s.extention === 'vtt') {
+      map.set(key, s);
+    }
+  }
+  return Array.from(map.values());
+}
+
+function getTitle(d, id) {
+  const ar = (d.ar_title || '').trim();
+  const en = (d.en_title || '').trim();
+  const other = (d.other_title || '').trim();
+  return ar || en || (other ? other.split(',')[0].trim() : '') || ('فيديو ' + id);
+}
+
+function getMediaLabel(d, id) {
+  const title = getTitle(d, id);
+  const season = parseInt(d.season, 10) || 1;
+  const ep = parseInt(d.episodeNummer, 10) || 0;
+  if (String(d.kind) === '2' && ep > 0) {
+    return title + ' S' + String(season).padStart(2, '0') + 'E' + String(ep).padStart(2, '0');
+  }
+  if (String(d.kind) === '1' && d.year) return title + ' (' + d.year + ')';
+  return title;
+}
+
+function sanitizeFilename(name) {
+  return name.replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/\.+$/, '').slice(0, 150);
+}
+
+function makeSubFilename(label, t) {
+  return sanitizeFilename(label + ' - ' + getLangLabel(t)) + '.' + (t.extention || 'srt');
+}
+
+function makeVideoFilename(label, v) {
+  const res = v.resolution || 'video';
+  const ext = v.container || 'mp4';
+  return sanitizeFilename(label + ' [' + res + ']') + '.' + ext;
+}
+
+function downloadUrl(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  if (filename) a.download = filename;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+async function copyText(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    ta.remove();
+  }
+  const old = btn.innerHTML;
+  btn.textContent = 'تم النسخ ✔';
+  setTimeout(() => btn.innerHTML = old, 1300);
+}
+
+async function attachSubtitlesToPlayer(videoElem, subItem, statusElem) {
+  videoElem.querySelectorAll('track').forEach(t => t.remove());
+
+  for (let i = 0; i < videoElem.textTracks.length; i++) {
+    videoElem.textTracks[i].mode = 'disabled';
+  }
+
+  if (!subItem || subItem === 'none') {
+    if (statusElem) statusElem.textContent = 'الترجمة المصاحبة معطلة';
+    return;
+  }
+
+  if (statusElem) statusElem.textContent = 'جارٍ تجهيز الترجمة (' + getLangLabel(subItem) + ')...';
+
+  try {
+    const res = await fetch(subItem.file);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    let text = await res.text();
+
+    if (!text.trim().startsWith('WEBVTT')) {
+      text = 'WEBVTT\n\n' + text
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n')
+        .replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
+    }
+
+    const blob = new Blob([text], { type: 'text/vtt;charset=utf-8' });
+    const trackUrl = URL.createObjectURL(blob);
+
+    const track = document.createElement('track');
+    track.kind = 'subtitles';
+    track.label = getLangLabel(subItem);
+    track.srclang = (subItem.type || 'ar').toLowerCase();
+    track.src = trackUrl;
+    track.default = true;
+
+    videoElem.appendChild(track);
+
+    setTimeout(() => {
+      for (let i = 0; i < videoElem.textTracks.length; i++) {
+        videoElem.textTracks[i].mode = 'showing';
+      }
+    }, 100);
+
+    if (statusElem) statusElem.textContent = 'الترجمة المصاحبة مفعلة: ' + getLangLabel(subItem) + ' ✔';
+  } catch (err) {
+    if (statusElem) statusElem.textContent = 'تعذّر تشغيل الترجمة: ' + err.message;
+  }
+}
+
+function renderVideoSection(videoFiles, label, subs) {
+  const container = document.createElement('div');
+  container.className = 'card';
+
+  const header = document.createElement('div');
+  header.className = 'section-title';
+  header.innerHTML = `<span>🎬 جودات الفيديو المتاحة (${videoFiles.length})</span>`;
+  container.appendChild(header);
+
+  if (!videoFiles || !videoFiles.length) {
+    const empty = document.createElement('div');
+    empty.className = 'meta';
+    empty.textContent = 'لم تتوفر روابط فيديو معالجة لهذا المحتوى حالياً.';
+    container.appendChild(empty);
+    return container;
+  }
+
+  const sorted = [...videoFiles].sort((a, b) => {
+    const numA = parseInt(a.resolution, 10) || 0;
+    const numB = parseInt(b.resolution, 10) || 0;
+    return numB - numA;
+  });
+
+  const playerBox = document.createElement('div');
+  playerBox.className = 'video-player-box';
+
+  const playerToolbar = document.createElement('div');
+  playerToolbar.className = 'player-toolbar';
+
+  const playerTitle = document.createElement('div');
+  playerTitle.className = 'player-title';
+  playerTitle.innerHTML = `<span>📺 مشغل الفيديو</span>`;
+
+  const subControl = document.createElement('div');
+  subControl.className = 'player-sub-control';
+  subControl.innerHTML = `<span>الترجمة:</span>`;
+
+  const subSelect = document.createElement('select');
+  const uniqueSubs = filterUniqueSubs(subs || []);
+
+  const optNone = document.createElement('option');
+  optNone.value = 'none';
+  optNone.textContent = 'بدون ترجمة';
+  subSelect.appendChild(optNone);
+
+  uniqueSubs.forEach((s, idx) => {
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = getLangLabel(s) + ' (' + (s.extention || '').toUpperCase() + ')';
+    if ((s.type || '').toLowerCase() === 'ar') opt.selected = true;
+    subSelect.appendChild(opt);
+  });
+  subControl.appendChild(subSelect);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn-close';
+  closeBtn.textContent = '✕ إغلاق المشغل';
+
+  playerToolbar.append(playerTitle, subControl, closeBtn);
+
+  const videoElem = document.createElement('video');
+  videoElem.controls = true;
+  videoElem.playsInline = true;
+  videoElem.preload = 'none';
+
+  const subStatusBar = document.createElement('div');
+  subStatusBar.className = 'sub-status-bar';
+  subStatusBar.textContent = 'جاهز للعرض';
+
+  playerBox.append(playerToolbar, videoElem, subStatusBar);
+  container.appendChild(playerBox);
+
+  subSelect.onchange = () => {
+    if (subSelect.value === 'none') {
+      attachSubtitlesToPlayer(videoElem, 'none', subStatusBar);
+    } else {
+      const chosen = uniqueSubs[parseInt(subSelect.value, 10)];
+      attachSubtitlesToPlayer(videoElem, chosen, subStatusBar);
+    }
+  };
+
+  closeBtn.onclick = () => {
+    playerBox.style.display = 'none';
+    videoElem.pause();
+    videoElem.src = '';
+  };
+
+  const grid = document.createElement('div');
+  grid.className = 'quality-grid';
+
+  sorted.forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'quality-item';
+
+    const res = v.resolution || 'MP4';
+    let badgeClass = 'sd';
+    const resNum = parseInt(res, 10) || 0;
+    if (resNum >= 1080) badgeClass = 'fhd';
+    else if (resNum >= 720) badgeClass = 'hd';
+
+    item.innerHTML = `
+      <div class="q-head">
+        <span class="quality-badge ${badgeClass}">${res}</span>
+        <span class="q-type">${v.container || 'mp4'}</span>
+      </div>
+      <div class="meta" style="font-size:11.5px;margin-bottom:4px;">${v.transcoddedFileName || ''}</div>
+    `;
+
+    const actions = document.createElement('div');
+    actions.className = 'q-actions';
+
+    const dlBtn = document.createElement('button');
+    dlBtn.className = 'btn-s btn-dl';
+    dlBtn.innerHTML = '⬇ تنزيل';
+    dlBtn.onclick = () => downloadUrl(v.videoUrl, makeVideoFilename(label, v));
+
+    const cpBtn = document.createElement('button');
+    cpBtn.className = 'btn-s btn-cp';
+    cpBtn.innerHTML = '📋 نسخ';
+    cpBtn.title = 'نسخ الرابط المباشر لـ IDM أو VLC';
+    cpBtn.onclick = () => copyText(v.videoUrl, cpBtn);
+
+    const playBtn = document.createElement('button');
+    playBtn.className = 'btn-s btn-cp';
+    playBtn.innerHTML = '▶ تشغيل';
+    playBtn.onclick = async () => {
+      playerTitle.innerHTML = `<span>📺 ${label} [${res}]</span>`;
+
+      if (playerBox.style.display === 'block' && videoElem.src === v.videoUrl) {
+        playerBox.style.display = 'none';
+        videoElem.pause();
+        return;
+      }
+
+      videoElem.src = v.videoUrl;
+      playerBox.style.display = 'block';
+
+      let activeSub = null;
+      if (subSelect.value !== 'none') {
+        activeSub = uniqueSubs[parseInt(subSelect.value, 10)];
+      } else {
+        const arIdx = uniqueSubs.findIndex(s => (s.type || '').toLowerCase() === 'ar');
+        if (arIdx !== -1) {
+          subSelect.value = String(arIdx);
+          activeSub = uniqueSubs[arIdx];
+        }
+      }
+
+      if (activeSub) {
+        await attachSubtitlesToPlayer(videoElem, activeSub, subStatusBar);
+      } else {
+        subStatusBar.textContent = 'بدون ترجمة مفعّلة';
+      }
+
+      videoElem.play();
+      playerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    actions.append(dlBtn, cpBtn, playBtn);
+    item.appendChild(actions);
+    grid.appendChild(item);
+  });
+
+  container.appendChild(grid);
+  return container;
+}
+
+function renderSubCard(t, label) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const title = document.createElement('h2');
+  title.textContent = getLangLabel(t) + ' (' + (t.extention || '').toUpperCase() + ')';
+  const fname = document.createElement('div');
+  fname.className = 'meta';
+  fname.textContent = t.file.split('?')[0].split('/').pop();
+
+  const row = document.createElement('div');
+  row.className = 'row';
+
+  const dl = document.createElement('button');
+  dl.className = 'btn-s btn-dl';
+  dl.textContent = 'تنزيل الترجمة';
+
+  const cp = document.createElement('button');
+  cp.className = 'btn-s btn-cp';
+  cp.textContent = 'نسخ الرابط';
+
+  const pv = document.createElement('button');
+  pv.className = 'btn-s btn-cp';
+  pv.textContent = 'معاينة النص';
+
+  const box = document.createElement('pre');
+
+  dl.onclick = async () => {
+    const old = dl.textContent;
+    dl.disabled = true;
+    dl.textContent = 'جارٍ التحميل...';
+    try {
+      const res = await fetch(t.file);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const blob = await res.blob();
+      const tmp = URL.createObjectURL(blob);
+      downloadUrl(tmp, makeSubFilename(label, t));
+      setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+      dl.textContent = 'تم ✔';
+      setTimeout(() => dl.textContent = old, 1200);
+    } catch (err) {
+      alert('تعذّر تنزيل الملف: ' + err.message);
+      dl.textContent = old;
+    }
+    dl.disabled = false;
+  };
+
+  cp.onclick = () => copyText(t.file, cp);
+
+  pv.onclick = async () => {
+    if (box.style.display === 'block') {
+      box.style.display = 'none';
+      return;
+    }
+    pv.disabled = true;
+    try {
+      const res = await fetch(t.file);
+      const text = await res.text();
+      box.textContent = text.split(/\r?\n/).slice(0, 40).join('\n');
+      box.style.display = 'block';
+    } catch (err) {
+      alert('تعذّر قراءة الملف: ' + err.message);
+    }
+    pv.disabled = false;
+  };
+
+  row.append(dl, cp, pv);
+  card.append(title, fname, row, box);
+  return card;
+}
+
+function renderEpisodesCard(eps, currentId) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const title = document.createElement('h2');
+  title.textContent = '📺 مواسم وحلقات العمل';
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  meta.textContent = 'إجمالي الحلقات: ' + eps.length;
+
+  const seasons = [...new Set(eps.map(e => String(e.season || '1')))].sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  const currentEp = eps.find(e => String(e.nb) === String(currentId));
+
+  const row = document.createElement('div');
+  row.className = 'row';
+
+  let seasonPick = null;
+  if (seasons.length > 1) {
+    seasonPick = document.createElement('select');
+    seasons.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s;
+      o.textContent = 'الموسم ' + s;
+      seasonPick.appendChild(o);
+    });
+    if (currentEp) seasonPick.value = String(currentEp.season || '1');
+    row.appendChild(seasonPick);
+  }
+
+  const epPick = document.createElement('select');
+  row.appendChild(epPick);
+
+  const openBatchBtn = document.createElement('button');
+  openBatchBtn.className = 'btn-s btn-dl';
+  openBatchBtn.innerHTML = '⚡ تحميل حلقات الموسم كاملاً';
+  row.appendChild(openBatchBtn);
+
+  const exportBtn = document.createElement('button');
+  exportBtn.className = 'btn-s btn-gold';
+  exportBtn.textContent = '📋 تصدير روابط IDM';
+  row.appendChild(exportBtn);
+
+  const allSubBtn = document.createElement('button');
+  allSubBtn.className = 'btn-s btn-cp';
+  allSubBtn.textContent = '💬 ترجمات الموسم فقط';
+  row.appendChild(allSubBtn);
+
+  const batchPanel = document.createElement('div');
+  batchPanel.className = 'batch-panel';
+
+  const batchHeader = document.createElement('div');
+  batchHeader.className = 'batch-header';
+  batchHeader.innerHTML = `<span>🚀 تحميل حلقات الموسم كاملاً</span>`;
+  const closeBatch = document.createElement('button');
+  closeBatch.className = 'btn-close';
+  closeBatch.textContent = '✕ إغلاق';
+  batchHeader.appendChild(closeBatch);
+  batchPanel.appendChild(batchHeader);
+
+  const batchRow = document.createElement('div');
+  batchRow.className = 'batch-row';
+
+  const qLabel = document.createElement('label');
+  qLabel.className = 'batch-label';
+  qLabel.innerHTML = '<span>الجودة:</span>';
+  const qSelect = document.createElement('select');
+  qSelect.innerHTML = `
+    <option value="1080p">1080p (FHD - أعلى دقة)</option>
+    <option value="720p" selected>720p (HD - جودة ممتازة)</option>
+    <option value="480p">480p (SD - حجم متوسط)</option>
+    <option value="360p">360p (حجم صغير)</option>
+    <option value="240p">240p (أصغر حجم)</option>
+  `;
+  qLabel.appendChild(qSelect);
+
+  const subCheckLabel = document.createElement('label');
+  subCheckLabel.className = 'batch-checkbox';
+  const subCheckInput = document.createElement('input');
+  subCheckInput.type = 'checkbox';
+  subCheckInput.checked = true;
+  subCheckLabel.append(subCheckInput, document.createTextNode('تنزيل الترجمة العربية (.srt) مع كل حلقة'));
+
+  batchRow.append(qLabel, subCheckLabel);
+  batchPanel.appendChild(batchRow);
+
+  const batchActions = document.createElement('div');
+  batchActions.className = 'batch-actions';
+
+  const startDirectBtn = document.createElement('button');
+  startDirectBtn.className = 'btn-s btn-dl';
+  startDirectBtn.innerHTML = '🚀 بدء التنزيل المباشر في المتصفح';
+
+  const genBatBtn = document.createElement('button');
+  genBatBtn.className = 'btn-s btn-gold';
+  genBatBtn.innerHTML = '💾 تنزيل سكربت سريع للويندوز (.bat)';
+
+  const cancelBatchBtn = document.createElement('button');
+  cancelBatchBtn.className = 'btn-s btn-close';
+  cancelBatchBtn.textContent = '⏹ إيقاف التنزيل';
+  cancelBatchBtn.style.display = 'none';
+
+  batchActions.append(startDirectBtn, genBatBtn, cancelBatchBtn);
+  batchPanel.appendChild(batchActions);
+
+  const progressBox = document.createElement('div');
+  progressBox.className = 'batch-progress-box';
+  const progressBg = document.createElement('div');
+  progressBg.className = 'progress-bar-bg';
+  const progressFill = document.createElement('div');
+  progressFill.className = 'progress-bar-fill';
+  progressBg.appendChild(progressFill);
+
+  const progressStatusText = document.createElement('div');
+  progressStatusText.className = 'progress-status-text';
+  progressStatusText.textContent = 'جاهز لبدء التنزيل...';
+
+  progressBox.append(progressBg, progressStatusText);
+  batchPanel.appendChild(progressBox);
+
+  card.appendChild(batchPanel);
+
+  function getActiveSeasonEpisodes() {
+    const s = seasonPick ? seasonPick.value : (seasons[0] || '1');
+    return eps.filter(e => String(e.season || '1') === s);
+  }
+
+  function updateEpisodePicker(selectedId) {
+    epPick.innerHTML = '';
+    getActiveSeasonEpisodes().forEach(e => {
+      const opt = document.createElement('option');
+      opt.value = String(e.nb);
+      opt.textContent = 'الحلقة ' + (e.episodeNummer || '?');
+      if (selectedId && String(e.nb) === String(selectedId)) opt.selected = true;
+      epPick.appendChild(opt);
+    });
+  }
+
+  function switchEpisode(nb) {
+    if (!nb || String(nb) === String(currentId)) return;
+    urlInput.value = String(nb);
+    loadTarget(String(nb));
+  }
+
+  updateEpisodePicker(currentId);
+
+  if (seasonPick) {
+    seasonPick.onchange = () => {
+      updateEpisodePicker(null);
+      if (epPick.value) switchEpisode(epPick.value);
+    };
+  }
+
+  epPick.onchange = () => switchEpisode(epPick.value);
+
+  openBatchBtn.onclick = () => {
+    batchPanel.style.display = batchPanel.style.display === 'block' ? 'none' : 'block';
+    if (batchPanel.style.display === 'block') {
+      batchPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  closeBatch.onclick = () => {
+    batchPanel.style.display = 'none';
+  };
+
+  let isBatchHalted = false;
+  cancelBatchBtn.onclick = () => {
+    isBatchHalted = true;
+    cancelBatchBtn.textContent = 'جارٍ الإيقاف...';
+  };
+
+  startDirectBtn.onclick = async () => {
+    const currentList = getActiveSeasonEpisodes();
+    if (!currentList.length) {
+      alert('لا توجد حلقات متاحة في هذا الموسم.');
+      return;
+    }
+
+    const chosenQuality = qSelect.value;
+    const includeSubs = subCheckInput.checked;
+
+    isBatchHalted = false;
+    startDirectBtn.disabled = true;
+    genBatBtn.disabled = true;
+    cancelBatchBtn.style.display = 'inline-flex';
+    cancelBatchBtn.textContent = '⏹ إيقاف التنزيل';
+    progressBox.style.display = 'block';
+    progressFill.style.width = '0%';
+
+    let successCount = 0;
+    const total = currentList.length;
+
+    for (let i = 0; i < total; i++) {
+      if (isBatchHalted) {
+        progressStatusText.textContent = 'تم إيقاف عملية التحميل.';
+        break;
+      }
+
+      const ep = currentList[i];
+      const epNum = ep.episodeNummer || (i + 1);
+      const pct = Math.round((i / total) * 100);
+      progressFill.style.width = pct + '%';
+      progressStatusText.textContent = `جارٍ تجهيز الحلقة ${i + 1} من ${total} (الحلقة ${epNum})...`;
+
+      try {
+        const [vList, epInfo] = await Promise.all([
+          fetchVideoFiles(String(ep.nb)),
+          includeSubs ? fetchVideoInfo(String(ep.nb)) : Promise.resolve(null)
+        ]);
+
+        const epLabel = getMediaLabel(epInfo || ep, String(ep.nb));
+
+        if (vList && vList.length) {
+          let chosen = vList.find(x => (x.resolution || '').toLowerCase() === chosenQuality.toLowerCase());
+          if (!chosen) {
+            chosen = vList.sort((a, b) => (parseInt(b.resolution, 10) || 0) - (parseInt(a.resolution, 10) || 0))[0];
+          }
+
+          if (chosen && chosen.videoUrl) {
+            progressStatusText.textContent = `جارٍ إرسال الحلقة ${i + 1}/${total} [${chosen.resolution || chosenQuality}] للمتصفح...`;
+            downloadUrl(chosen.videoUrl, makeVideoFilename(epLabel, chosen));
+            successCount++;
+          }
+        }
+
+        if (includeSubs && epInfo) {
+          const subs = parseSubtitles(epInfo);
+          const arSub = subs.find(s => (s.type || '').toLowerCase() === 'ar') || subs[0];
+          if (arSub) {
+            try {
+              const res = await fetch(arSub.file);
+              if (res.ok) {
+                const blob = await res.blob();
+                const tmp = URL.createObjectURL(blob);
+                downloadUrl(tmp, makeSubFilename(epLabel, arSub));
+                setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+              }
+            } catch (e) {}
+          }
+        }
+
+        await new Promise(r => setTimeout(r, 1300));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    progressFill.style.width = '100%';
+    if (!isBatchHalted) {
+      progressStatusText.textContent = `تم إرسال كافة الحلقات بنجاح (${successCount}/${total})! ✔`;
+      alert(`تم إرسال ${successCount} حلقة للمتصفح لبدء التنزيل!`);
+    }
+
+    startDirectBtn.disabled = false;
+    genBatBtn.disabled = false;
+    cancelBatchBtn.style.display = 'none';
+  };
+
+  genBatBtn.onclick = async () => {
+    const currentList = getActiveSeasonEpisodes();
+    const old = genBatBtn.textContent;
+    genBatBtn.disabled = true;
+    genBatBtn.textContent = 'جارٍ إعداد السكربت...';
+
+    const chosenQuality = qSelect.value;
+    let commands = [
+      '@echo off',
+      'chcp 65001 > nul',
+      'echo ======================================================',
+      `echo   Cinemana Season Downloader - Author: M7 (@tg.v)`,
+      `echo   Quality: ${chosenQuality}`,
+      'echo ======================================================',
+      'echo.'
+    ];
+
+    for (let i = 0; i < currentList.length; i++) {
+      genBatBtn.textContent = `جمع الروابط... (${i + 1}/${currentList.length})`;
+      try {
+        const ep = currentList[i];
+        const vList = await fetchVideoFiles(String(ep.nb));
+        if (vList && vList.length) {
+          let chosen = vList.find(x => (x.resolution || '').toLowerCase() === chosenQuality.toLowerCase()) || vList[0];
+          const fileName = makeVideoFilename(getMediaLabel(ep, String(ep.nb)), chosen);
+          commands.push(`echo [${i + 1}/${currentList.length}] Downloading: ${fileName}...`);
+          commands.push(`curl -L -C - --retry 3 -o "${fileName}" "${chosen.videoUrl}"`);
+          commands.push('echo.');
+        }
+      } catch (e) {}
+    }
+
+    commands.push('echo All episodes downloaded successfully!');
+    commands.push('pause');
+
+    const batBlob = new Blob([commands.join('\r\n')], { type: 'application/bat;charset=utf-8' });
+    const tmp = URL.createObjectURL(batBlob);
+    downloadUrl(tmp, `Download_Season_${seasonPick ? seasonPick.value : '1'}_${chosenQuality}.bat`);
+    setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+
+    genBatBtn.textContent = old;
+    genBatBtn.disabled = false;
+    alert('تم تحميل ملف السكربت (.bat). شغله داخل أي مجلد على جهازك لتحميل الحلقات بأقصى سرعة واستئناف التنزيل آلياً!');
+  };
+
+  exportBtn.onclick = async () => {
+    const currentList = getActiveSeasonEpisodes();
+    const old = exportBtn.textContent;
+    exportBtn.disabled = true;
+    exportBtn.textContent = 'جارٍ جمع الروابط...';
+
+    const chosenQuality = qSelect.value || '720p';
+    let output = [];
+
+    for (let i = 0; i < currentList.length; i++) {
+      exportBtn.textContent = `جمع الروابط... (${i + 1}/${currentList.length})`;
+      try {
+        const vList = await fetchVideoFiles(String(currentList[i].nb));
+        if (vList && vList.length) {
+          let chosen = vList.find(x => (x.resolution || '').toLowerCase() === chosenQuality.toLowerCase()) || vList[0];
+          output.push(chosen.videoUrl);
+        }
+      } catch (e) {}
+    }
+
+    if (output.length) {
+      const blob = new Blob([output.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+      const tmp = URL.createObjectURL(blob);
+      downloadUrl(tmp, `Cinemana_Season_${seasonPick ? seasonPick.value : '1'}_IDM.txt`);
+      setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+      alert(`تم استخراج ${output.length} رابط وحفظها في ملف نصي جاهز للاستيراد في IDM!`);
+    } else {
+      alert('لم يتم العثور على روابط لهذه الحلقات.');
+    }
+
+    exportBtn.textContent = old;
+    exportBtn.disabled = false;
+  };
+
+  allSubBtn.onclick = async () => {
+    const currentList = getActiveSeasonEpisodes();
+    const old = allSubBtn.textContent;
+    allSubBtn.disabled = true;
+    let count = 0;
+
+    for (let i = 0; i < currentList.length; i++) {
+      allSubBtn.textContent = `جارٍ التنزيل... (${i + 1}/${currentList.length})`;
+      try {
+        const d = await fetchVideoInfo(String(currentList[i].nb));
+        const label = getMediaLabel(d, String(currentList[i].nb));
+        for (const t of parseSubtitles(d)) {
+          try {
+            const res = await fetch(t.file);
+            if (res.ok) {
+              const blob = await res.blob();
+              const tmp = URL.createObjectURL(blob);
+              downloadUrl(tmp, makeSubFilename(label, t));
+              setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+              count++;
+            }
+          } catch (e) {}
+        }
+      } catch (e) {}
+    }
+
+    allSubBtn.textContent = 'تم تنزيل ' + count + ' ملف';
+    setTimeout(() => {
+      allSubBtn.textContent = old;
+      allSubBtn.disabled = false;
+    }, 2500);
+  };
+
+  card.append(title, meta, row);
+  return card;
+}
+
+async function loadTarget(id) {
+  if (isBusy) return;
+  isBusy = true;
+  resultsBox.innerHTML = '';
+  goBtn.disabled = true;
+  setStatus('load', 'جارٍ جلب تفاصيل وجودات الفيديو ' + id + '...');
+
+  try {
+    const [data, videoFiles] = await Promise.all([
+      fetchVideoInfo(id),
+      fetchVideoFiles(id)
+    ]);
+
+    const subs = parseSubtitles(data);
+    const label = getMediaLabel(data, id);
+
+    setStatus('', '');
+
+    let eps = [];
+    if (String(data.kind) === '2') {
+      const root = (data.rootSeries && String(data.rootSeries) !== '0') ? String(data.rootSeries) : id;
+      try {
+        eps = await fetchEpisodes(root);
+      } catch (e) {
+        eps = [];
+      }
+    }
+    if (eps.length) resultsBox.appendChild(renderEpisodesCard(eps, id));
+
+    const head = document.createElement('div');
+    head.className = 'card headline';
+    const h = document.createElement('h2');
+    h.textContent = label;
+    const m = document.createElement('div');
+    m.className = 'meta';
+    m.textContent = 'المعرّف ID: ' + id + ' | الجودات: ' + (videoFiles.length ? videoFiles.map(x => x.resolution).join(', ') : 'غير متوفر') + ' | الترجمات: ' + subs.length;
+    const info = document.createElement('div');
+    info.className = 'info';
+    info.append(h, m);
+    head.appendChild(info);
+
+    const thumb = data.imgThumbObjUrl || data.imgObjUrl;
+    if (thumb) {
+      const img = document.createElement('img');
+      img.className = 'thumb';
+      img.loading = 'lazy';
+      img.onerror = () => img.remove();
+      img.src = thumb;
+      head.insertBefore(img, info);
+    }
+    resultsBox.appendChild(head);
+
+    resultsBox.appendChild(renderVideoSection(videoFiles, label, subs));
+
+    const subHeader = document.createElement('div');
+    subHeader.className = 'section-title';
+    subHeader.innerHTML = `<span>💬 ملفات الترجمة المتوفرة (${subs.length})</span>`;
+    resultsBox.appendChild(subHeader);
+
+    if (subs.length) {
+      subs.forEach(t => resultsBox.appendChild(renderSubCard(t, label)));
+
+      const exts = [...new Set(subs.map(t => t.extention))];
+      if (exts.length) {
+        const bar = document.createElement('div');
+        bar.className = 'row';
+        bar.style.marginTop = '12px';
+        exts.forEach(ext => {
+          const b = document.createElement('button');
+          b.className = 'btn-s';
+          b.textContent = 'تنزيل كل ترجمات (' + ext.toUpperCase() + ')';
+          b.onclick = async () => {
+            const old = b.textContent;
+            b.disabled = true;
+            b.textContent = 'جارٍ التنزيل...';
+            for (const t of subs.filter(x => x.extention === ext)) {
+              try {
+                const res = await fetch(t.file);
+                if (res.ok) {
+                  const blob = await res.blob();
+                  const tmp = URL.createObjectURL(blob);
+                  downloadUrl(tmp, makeSubFilename(label, t));
+                  setTimeout(() => URL.revokeObjectURL(tmp), 8000);
+                }
+              } catch (e) {}
+            }
+            b.textContent = old;
+            b.disabled = false;
+          };
+          bar.appendChild(b);
+        });
+        resultsBox.appendChild(bar);
+      }
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'card';
+      empty.style.color = 'var(--muted)';
+      empty.textContent = 'لا توجد ترجمات منشورة لهذا الفيديو.';
+      resultsBox.appendChild(empty);
+    }
+
+  } catch (err) {
+    setStatus('err', 'تعذّر جلب البيانات: ' + err.message);
+  }
+
+  goBtn.disabled = false;
+  isBusy = false;
+}
+
+async function searchLibrary(query) {
+  if (isBusy) return;
+  isBusy = true;
+  resultsBox.innerHTML = '';
+  goBtn.disabled = true;
+  setStatus('load', 'جارٍ البحث عن: ' + query + ' ...');
+
+  try {
+    const res = await fetch(API_ENDPOINTS.search + toBase64Url(query) + '/itemsPerPage/12/pageNumber/0/level/1');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const list = await res.json();
+    if (!Array.isArray(list) || !list.length) {
+      setStatus('err', 'لم يتم العثور على نتائج مطابقة.');
+      goBtn.disabled = false;
+      isBusy = false;
+      return;
+    }
+    setStatus('', '');
+    const head = document.createElement('div');
+    head.className = 'card';
+    const h = document.createElement('h2');
+    h.textContent = 'نتائج البحث عن: ' + query;
+    const m = document.createElement('div');
+    m.className = 'meta';
+    m.textContent = 'عدد النتائج: ' + list.length + '، اختر العمل المطلوب لعرض جوداته وترجماته.';
+    head.append(h, m);
+    resultsBox.appendChild(head);
+    list.forEach(item => resultsBox.appendChild(renderSearchResult(item)));
+  } catch (err) {
+    setStatus('err', 'فشل البحث: ' + err.message);
+  }
+  goBtn.disabled = false;
+  isBusy = false;
+}
+
+function renderSearchResult(item) {
+  const card = document.createElement('div');
+  card.className = 'card result';
+  const thumb = item.imgThumbObjUrl || item.imgObjUrl;
+  if (thumb) {
+    const img = document.createElement('img');
+    img.className = 'thumb';
+    img.loading = 'lazy';
+    img.onerror = () => img.remove();
+    img.src = thumb;
+    card.appendChild(img);
+  }
+  const info = document.createElement('div');
+  info.className = 'info';
+  const h = document.createElement('h2');
+  h.textContent = getTitle(item, item.nb);
+  const m = document.createElement('div');
+  m.className = 'meta';
+  const parts = [String(item.kind) === '1' ? 'فيلم' : 'مسلسل'];
+  if (item.year) parts.push(String(item.year));
+  const s = parseInt(item.season, 10) || 0;
+  const e = parseInt(item.episodeNummer, 10) || 0;
+  if (String(item.kind) === '2' && e > 0) parts.push('الموسم ' + (s || 1) + '، الحلقة ' + e);
+  m.textContent = parts.join(' · ');
+  info.append(h, m);
+  card.appendChild(info);
+  card.onclick = () => {
+    urlInput.value = String(item.nb);
+    loadTarget(String(item.nb));
+  };
+  return card;
+}
+
+function handleSearchOrFetch() {
+  const raw = urlInput.value.trim();
+  if (!raw) {
+    setStatus('err', 'أدخل اسم العمل أو رابطه أو رقم ID أولاً.');
+    return;
+  }
+  const id = extractId(raw);
+  if (id) {
+    loadTarget(id);
+  } else {
+    searchLibrary(raw);
+  }
+}
+
+goBtn.onclick = handleSearchOrFetch;
+urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSearchOrFetch(); });
+</script>
+</body>
+</html>
